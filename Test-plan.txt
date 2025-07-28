@@ -1,0 +1,148 @@
+# QA Automation Challenge – Test Plan
+
+## Overview
+This test plan outlines the automation strategy for a full-stack web application consisting of a React frontend and a Node.js backend. The application supports user authentication and basic CRUD operations on a todo list.
+
+---
+
+## 1. Objectives
+- Verify the correctness of core application features using automated UI and API tests.
+- Ensure regression coverage across login and todo management.
+- Validate behavior for both positive and negative test scenarios.
+
+---
+
+## 2. What is Being Tested
+
+### UI Functionality (React Frontend)
+- User login with valid/invalid credentials
+- Creating a new todo
+- Editing an existing todo
+- Deleting a todo
+- Verifying that changes reflect correctly on the UI
+
+### API Endpoints (Node.js Backend)
+- `POST  /login`
+- `GET  /todos`
+- `POST  /todos`
+- `PUT /todos/:id`
+- `DELETE /todos/:id`
+
+Each API endpoint is tested for:
+- Valid requests
+- Invalid/edge case inputs
+
+---
+
+## 3. Tools & Frameworks
+
+| Purpose              | Tool Used      | Reason                             |
+|---------------------|----------------|------------------------------------|
+| UI Automation       | Playwright     | Modern, fast, reliable, headless UI automation |
+| API Testing         | Supertest + Jest | Lightweight, easy integration with Node.js |
+| Test Runner         | Jest           | Supports unit and integration testing |
+| Continuous Integration | GitHub Actions | Automates running tests on every push or pull request |
+
+---
+
+## 4. Test Coverage Areas
+- Functional Testing (UI + API)
+- Positive and Negative Test Cases
+- Data validation and response integrity
+
+---
+
+### 5. Start the Backend
+
+```bash
+cd backend
+npm install
+npm run dev
+
+### 6. Start the Frontend
+
+```bash
+cd ../frontend
+npm install
+npm run dev
+```
+
+
+## 7. Running the Tests
+
+### UI Tests (Playwright)
+```bash
+cd ui-test
+npx playwright test
+```
+
+### API Tests (Supertest)
+```bash
+cd backend
+npm run test
+```
+
+---
+
+## 8. GitHub Actions CI Setup
+Create a `.github/workflows/ci.yml` file in your repository:
+
+```yaml
+name: Run Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install server dependencies and run API tests
+      working-directory: server
+      run: |
+        npm install
+        npm test
+
+    - name: Install client dependencies and run Playwright tests
+      working-directory: client
+      run: |
+        npm install
+        npx playwright install
+        npx playwright test
+```
+
+---
+
+## 7. Assumptions
+- User credentials are seeded in the backend (e.g., `user@example.com / password`)
+- Backend uses in-memory storage or seeded test data
+- Tests are run in a local or CI environment with clean setup
+
+## 8. Limitations
+- No performance or load testing is included
+- No cross-browser testing beyond Chromium in Playwright
+
+---
+
+## 9. Future Enhancements
+- Add visual regression testing
+- Add test data management via fixtures or mock services
+- Generate code coverage reports and badges
