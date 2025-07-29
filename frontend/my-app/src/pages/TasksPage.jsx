@@ -55,7 +55,7 @@ function TasksPage() {
 
   return (
     <div>
-      <h2>Todo List</h2>
+      <h2>Task List</h2>
       <input value={newTodo} onChange={e => setNewTodo(e.target.value)} placeholder="New Todo" />
       <button onClick={addTodo}>Add</button>
       <ul>

@@ -76,6 +76,7 @@ npm run dev
 cd ui-test
 npm install
 npx playwright test
+npx playwright show-report
 ```
 
 ### API Tests (Supertest)
