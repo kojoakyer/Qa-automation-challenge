@@ -78,7 +78,8 @@ open coverage/lcov-report/index.html
 ### 3. Start the Frontend
 
 ```bash
-cd ../frontend
+cd frontend
+cd my-app
 npm install
 npm run dev
 ```
@@ -107,7 +108,7 @@ File: `.github/workflows/ci.yml`
 ## 📌 Assumptions
 
 - A sample user is pre-seeded in the DB (`user@example.com / password`)
-- MongoDB runs locally or as a GitHub Actions service
+-  GitHub Actions service
 - Tests run in a clean environment with seeded data
 
 ---
